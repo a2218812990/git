@@ -23,13 +23,44 @@
             <form class="login_form">
                 <i class="iconfont icon-user"></i>
                 <i class="iconfont icon-key"></i>
-                <input type="text" class="input_txt" placeholder="邮箱/手机号">
-                <input type="password" class="input_pass" placeholder="密码">
-                <input type="submit" class="input_sub" value="登 录">
+                <input id="tell" type="text" class="input_txt" placeholder="邮箱/手机号">
+                <input id="password" type="password" class="input_pass" placeholder="密码">
+                <input id="dl-btn" type="button" class="input_sub" value="登 录">
             </form>
         </div>
 
     </div> 
+
+    <script src="./js/jquery-1.12.4.min.js"></script>
+   <script>
+    //    点击登录事件
+    $('#dl-btn').click(function(){
+       var name=$('#tell').val().trim();
+       var password=$('#password').val().trim();
+        if(name===""||password===""){
+              alert('抱歉，输入不能为空')
+              return
+        }
+       
+       $.post('http://localhost:8000/admin/login',{user_name:name,password:password},function(res){
+             console.log(res);
+             
+        if(res.code===200){
+              location.href="index.html";
+        }else{
+
+            alert('密码输入错误，请重新输入');
+        }
+          
+       })
+    })
+
+
+
+   
+   </script>
+    
+
 
 </body>
 
