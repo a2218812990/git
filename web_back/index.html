@@ -52,7 +52,7 @@
         <iframe src="main_count.html" frameborder="0" id="main_frame" name="main_frame" frameborder="0" scrolling="auto"></iframe>
     </div>
 
-
+    <script src="./unitl/user.js"></script>
     <!-- 老代码不用管 -->
     <script>
         var $level01 = $('.level01');
@@ -105,16 +105,17 @@
     </script>
  <!-- 我的代码 -->
     <script>
+// 面向对象封装
+
+
+
 //   登录的时候获取用户信息
-   $.get('http://localhost:8000/admin/getuser',function(res){
+ 
+user.getuser(function(res){
+    $('#user').text(res.data.nickname)
+   $('.img1').prop('src',res.data.user_pic)
 
-       console.log(res);
-        $('#user').text(res.data.nickname)
-        $('.img1').prop('src',res.data.user_pic)
-       
-   })
-
-
+});
 
 
 
@@ -122,16 +123,14 @@
 
     // 退出登录功能
     $('#tcbtn').click(function(){
-     $.post('http://localhost:8000/admin/logout',function(res){
+    user.quit(function(res){
+        if(res.code===200){
 
-            console.log(res.code);
-            if(res.code===200){
+     location.href="login.html";
 
-                location.href="login.html";
+}
 
-            }
-            
-     })
+    });
 
     })
     

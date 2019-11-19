@@ -55,27 +55,34 @@
 
     <script src="./js/jquery-1.12.4.min.js"></script>
     <script src="js/bootstrap/js/bootstrap.min.js"></script>
+    <script src="./unitl/user.js"></script>
    <script>
+//    面向对象封装
+  
+
+
+
+
     //    点击登录事件
     $('#dl-btn').click(function(){
-       var name=$('#tell').val().trim();
-       var password=$('#password').val().trim();
-        if(name===""||password===""){
-            $('#myModal').modal('show')
+    //    console.log(2);
+       
+             var name=$('#tell').val().trim();
+             var password=$('#password').val().trim();
+             if(name===""||password===""){
+             $('#myModal').modal('show')
               return
         }
-       
-       $.post('http://localhost:8000/admin/login',{user_name:name,password:password},function(res){
-             console.log(res);
+       user.login(name,password,function(res){
              
-        if(res.code===200){
-              location.href="index.html";
-        }else{
-            $('#tishi').text('密码或者用户名错误')   
-            $('#myModal').modal('show')
-        }
-          
-       })
+             if(res.code===200){
+               location.href="index.html";
+           }else{
+             $('#tishi').text('密码或者用户名错误')   
+             $('#myModal').modal('show')
+          }
+           
+        });
     })
 
 
