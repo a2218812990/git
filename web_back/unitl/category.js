@@ -23,7 +23,7 @@ var category={
                
         })
        },
-     del:function(callback){
+     del:function(id,callback){
         $.post( allurl.category_del,{id:id},function(res){
    
             callback(res);

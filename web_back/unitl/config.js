@@ -11,7 +11,7 @@ var allurl={
         category_show:localhost+'/admin/category_search', //文章类型显示接口
         category_add:localhost+'/admin/category_add',//文章类型新增接口
         category_edit:localhost+'/admin/category_edit',//编辑文章类别
-        category_del:localhost+'admin/category_delete',//删除文章类别
+        category_del:localhost+'/admin/category_delete',//删除文章类别
 
 
 
