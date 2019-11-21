@@ -1,6 +1,6 @@
 var category={
     show:function(callback){
-        $.post( allurl. category_show,function(res){
+        $.get( allurl.category_show,function(res){
    
             callback(res);
               
