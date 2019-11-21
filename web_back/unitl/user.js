@@ -1,8 +1,7 @@
-var localhost='http://localhost:8000';
-
+// 用户相关的ajax请求
 var user={
     quit:function(tuichu){
-     $.post(localhost+'/admin/logout',function(res){
+     $.post( allurl.quiteurl,function(res){
 
             tuichu(res);
            
@@ -11,7 +10,7 @@ var user={
     },
    getuser:function(huoqu){
       
-    $.get(localhost+'/admin/getuser',function(res){
+    $.get( allurl.getuserurl,function(res){
 
        huoqu(res);
   
@@ -21,7 +20,7 @@ var user={
    },
 
    login:function(name,password,callback){
-    $.post(localhost+'/admin/login',{user_name:name,password:password},function(res){
+    $.post(allurl.loginurl,{user_name:name,password:password},function(res){
 
      callback(res);
       
