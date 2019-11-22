@@ -79,7 +79,41 @@
             </table>
         </div>
     </div>
+   <!-- 修改模态框 -->
+   <div class="modal fade" id="editModal" >
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+          <h4 class="modal-title">编辑分类</h4>
+        </div>
+        <div class="modal-body">
+          <form>
+                <div class="form-group" style="display: none;">
+                        <label for="recipient-name" class="control-label">id:</label>
+                        <input type="text" class="form-control" id="cate-edit-id">
+                      </div>
+            <div class="form-group">
+              <label for="recipient-name" class="control-label">分类名称:</label>
+              <input type="text" class="form-control" id="cate-edit-name">
+            </div>
+            <div class="form-group">
+              <label for="message-text" class="control-label">分类别名:</label>
+              <input type="text" class="form-control slug" id="cate-edit-slug">
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" id="shutoff1">关闭</button>
+          <button type="button" class="btn btn-primary" id="model_save">保存</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
+
+
+    <!-- 新增用的模态框 -->
     <div class="modal fade" id="addModal" >
         <div class="modal-dialog" role="document">
           <div class="modal-content">
@@ -91,11 +125,11 @@
               <form>
                 <div class="form-group">
                   <label for="recipient-name" class="control-label">分类名称:</label>
-                  <input type="text" class="form-control" id="recipient-name">
+                  <input type="text" class="form-control names">
                 </div>
                 <div class="form-group">
                   <label for="message-text" class="control-label">分类别名:</label>
-                  <input type="text" class="form-control" id="recipient-name">
+                  <input type="text" class="form-control slugs">
                 </div>
               </form>
             </div>
@@ -110,27 +144,18 @@
        <script src="./unitl/category.js"></script>
        <script src="./unitl/template-web.js"></script>
       <script>
-          $('#addModal').modal({
-            show:false,
-            backdrop:false
-          });
+         
 
-          $('#model_shutoff').click(function(){
-            alert('shutoff');
-            $('#addModal').modal('hide');
-          });
+        
 
-          $('#model_add').click(function(){
-            alert('add');
-            $('#addModal').modal('hide');
-          });
+         
 
-          $('.category_table').delegate('a','click',function(){
-              if($(this).hasClass('btn-info')){
-                $('#addModal .modal-title').html('修改分类名称');
-                $('#addModal').modal('show');
-              }
-          })      
+        //   $('.category_table').delegate('a','click',function(){
+        //       if($(this).hasClass('btn-info')){
+        //         $('#addModal .modal-title').html('修改分类名称');
+        //         $('#addModal').modal('show');
+        //       }
+        //   })      
       </script>
       <!-- 自己的代码 -->
       <script id="tempTable" type="text/html">
@@ -139,8 +164,8 @@
                 <td>{{item.name}}</td>
                 <td>{{item.slug}}</td>
                 <td class="text-center">
-                    <a href="javascript:editTr({&quot;id&quot;:&quot;4&quot;,&quot;slug&quot;:&quot;travel&quot;,&quot;name&quot;:&quot;爱旅行&quot;});"
-                        class="btn btn-info btn-xs">编辑</a>
+                    <a href="javascript:;" data-id="{{item.id}}"  data-name="{{item.name}}" data-slug="{{item.slug}}"
+                        class="btn btn-info btn-xs edit">编辑</a>
                     <a href="javascript:;" data-id='{{item.id}}'  class="btn btn-danger btn-xs del">删除</a>
                 </td>
             </tr>
@@ -188,8 +213,86 @@
 
 
     })
+    //   新增文章类容
+    // 关闭按钮
+   
+          $('#model_shutoff').click(function(){
+            // alert('shutoff');
+            $('#addModal').modal('hide');
+          });
+
+    $('#model_add').click(function(){
+
+    //   先获取输入的两个值，判断是否为空
+    var name =$('.names').val().trim();
+
+    var slug =$('.slugs').val().trim();
+    console.log(name,slug);
+    
+    
+    if(name===''||slug===''){
+        alert('不能为空');
+        return;
+
+
+    }
+
+    category.add(name,slug,function(res){
+
+             if(res.code===200){
+                $('#addModal').modal('hide');
+                show1();
+             }
+    
+        })
+
+    })
       
-      
+
+    // 编辑类容
+    // 编辑显示模态框
+    $('#wentuo').on('click','.edit',function(){
+        var id = $(this).attr('data-id')
+       var name = $(this).attr('data-name')
+       var slug = $(this).attr('data-slug')
+       $('#editModal').modal('show');
+       $('#cate-edit-id').val( id )
+       $('#cate-edit-name').val( name )
+      $('#cate-edit-slug').val( slug )
+
+
+    })
+    // 保存功能
+    $('#model_save').click(function(){
+
+        var id = $('#cate-edit-id').val().trim()
+        var name = $('#cate-edit-name').val().trim()
+        var slug = $('#cate-edit-slug').val().trim()
+        if(name===""||slug===""){
+            alert('不能为空')
+            return
+
+        }
+        category.edit(id,name,slug,function(res){
+               if(res.code===200){
+
+                      show1();
+                      $('#editModal').modal('hide');
+
+               }
+
+
+        })
+
+
+    })
+//    关闭按钮
+$('#shutoff1').click(function(){
+
+    $('#editModal').modal('hide');
+
+})
+
       </script>
 </body>
 

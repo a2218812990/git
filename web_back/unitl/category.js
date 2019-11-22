@@ -7,7 +7,7 @@ var category={
                
         })
        },
-      add:function(callback){
+      add:function(name,slug,callback){
         $.post( allurl.category_add,{name:name,slug:slug},function(res){
    
             callback(res);
@@ -15,7 +15,7 @@ var category={
                
         })
        },
-       edit:function(callback){
+       edit:function(id,name,slug,callback){
         $.post( allurl.category_edit,{id:id,name:name,slug:slug},function(res){
    
             callback(res);
