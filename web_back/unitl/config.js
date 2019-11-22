@@ -13,6 +13,8 @@ var allurl={
         category_edit:localhost+'/admin/category_edit',//编辑文章类别
         category_del:localhost+'/admin/category_delete',//删除文章类别
 
+        // 文章列表
+        article_show:localhost+'/admin/search',
 
 
 }

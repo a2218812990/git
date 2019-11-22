@@ -53,7 +53,7 @@
                         <th class="text-center" width="100">操作</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="articlecontiner">
 
 
 
@@ -250,29 +250,76 @@
             </table>
 
             <div class="row text-center">
-            <ul class="pagination pagination-sm">
-                <li class="page-item first disabled"><a href="#" class="page-link">首页</a></li>
-                <li class="page-item prev disabled"><a href="#" class="page-link">上一页</a></li>
-                <li class="page-item active"><a href="#" class="page-link">1</a></li>
-                <li class="page-item"><a href="#" class="page-link">2</a></li>
-                <li class="page-item"><a href="#" class="page-link">3</a></li>
-                <li class="page-item"><a href="#" class="page-link">4</a></li>
-                <li class="page-item"><a href="#" class="page-link">5</a></li>
-                <li class="page-item"><a href="#" class="page-link">6</a></li>
-                <li class="page-item"><a href="#" class="page-link">7</a></li>
-                <li class="page-item next"><a href="#" class="page-link">下一页</a></li>
-                <li class="page-item last"><a href="#" class="page-link">尾页</a></li>
-            </ul>
+                    <ul id="pagination-demo" class="pagination-sm"></ul>
         </div>
 
         </div>
     </div>
+      <script src="./unitl/config.js"></script>
+      <script src="./unitl/article.js"></script>
+      <script src="./unitl/template-web.js"></script>
+      <script src="./unitl/jquery.twbsPagination.js"></script>
+      <!-- 模板字符串 -->
+      <script type="text/html" id="articleshow">
+      {{each data item}}
+       
+      <tr>             
+            <td>{{item.title}}</td>
+            <td>{{item.author}}</td>
+            <td>{{item.type}}</td>
+            <td class="text-center">{{item.date}}</td>
+
+
+            <td class="text-center">{{item.state}}</td>
+
+
+            <td class="text-center">
+                <a href="article_edit.html" class="btn btn-default btn-xs">编辑</a>
+                <a href="javascript:deleteTr( 1005 );" class="btn btn-danger btn-xs">删除</a>
+            </td>
+        </tr>
+
+      {{/each}}
+      </script>
 
     <script>
         // 设置左侧菜单
         $('#release_btn').click(function(){
             window.parent.setMenu(1,1);
         })
+    </script>
+    <!-- 旧代码分隔符 -->
+    <script>
+        var pages="";
+        // 显示文章列表
+        showshow();
+
+     function showshow(){  
+      article.show(pages,function(res){
+          if(res.code===200){
+            var htmstr=template('articleshow',res) 
+           $('#articlecontiner').html(htmstr)
+            //   分页插件的使用
+           $('#pagination-demo').twbsPagination({
+            totalPages: res.totalPage, // 总页数
+            visiblePages: 6, // 可见页数
+            first:'首页',
+            prev:'上一页',
+            next:'下一页',
+            last:'尾页',
+            onPageClick: function (event, page) {
+                pages=page
+                showshow()
+            }
+        });
+        }
+      })
+    } 
+ 
+    
+    
+    
+    
     </script>
 
 </body>
