@@ -39,7 +39,7 @@
                 <div class="form-group">
                     <label for="inputEmail3" class="col-sm-2 control-label">文章类别：</label>
                     <div class="col-sm-4">
-                        <select class="form-control">
+                        <select id="checkout_select" class="form-control">
                             <option>1</option>
                             <option>2</option>
                             <option>3</option>
@@ -79,6 +79,37 @@
             </form>
         </div>
     </div>
+          <script src="./unitl/category.js"></script>
+          <script src="./unitl/config.js"></script>
+          <script src="./unitl/template-web.js"></script>
+          <script type="text/html" id="type_article"  >
+          {{each data item}}
+          <option>{{item.name}}</option>
+          {{/each}}
+          </script>
+
+          <script>
+
+            //   文章类别下拉框
+            category.show(function(res){
+            
+                 if(res.code===200){
+
+                     var htmstr=template('type_article',res)
+                     $('#checkout_select').html(htmstr)
+
+                 }
+
+
+
+            })
+
+            
+
+          </script>
+
+
+
 
 </body>
 
