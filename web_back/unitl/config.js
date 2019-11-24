@@ -15,6 +15,6 @@ var allurl={
 
         // 文章列表
         article_show:localhost+'/admin/search',
-
+        article_del:localhost+'/admin/article_delete',
 
 }
