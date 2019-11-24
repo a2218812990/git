@@ -15,6 +15,20 @@ var article={
 
     })
    },
+//    添加文章
+  add:function (fd,callback) {
+    $.ajax({
+         url:allurl.article_add,
+         type:'post',
+         data:fd,
+         processData: false, // 不要让jquery去处理formdata数据和表头
+         contentType: false,
+         success:function (res){
+             callback(res);
+         }
 
+    })
+    
+}
 
 }
