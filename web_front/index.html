@@ -28,7 +28,7 @@
         <div class="menu">
             <div class="menu_collapse fl">
                 <a href="javascript:;" class="level_one"><i class="fa fa-list-ul"></i>全部分类</a>
-                <ul class="level_two">
+                <ul id="level_two" class="level_two">
                     <li class="up"></li>
                     <li><a href="#">最 新</a></li>
                     <li><a href="#">科 技</a></li>
@@ -38,7 +38,7 @@
                     <li><a href="#">公 司</a></li>
                 </ul>
             </div>
-            <ul class="left_menu fl">
+            <ul id="left_menu" class="left_menu fl">
                 <li><a href="#">最 新</a></li>
                 <li><a href="#">科 技</a></li>
                 <li><a href="#">股 市</a></li>
@@ -55,8 +55,8 @@
 
     <div class="main_con clearfix">
         <div class="left_con">
-            <ul class="focus_list">
-                <li class="first">
+            <ul id="focus_list" class="focus_list">
+                <!-- <li class="first">
                     <a href="#"><img src="images/pic01.jpg" alt=""></a>
                     <p>图片说明</p>
                 </li>
@@ -75,7 +75,7 @@
                 <li>
                     <a href="#"><img src="images/pic06.jpg" alt=""></a>
                     <p>图片说明</p>
-                </li>
+                </li> -->
             </ul>
 
             <div class="common_title">
@@ -220,6 +220,60 @@
         <p>CopyRight © 2019 深圳大事件信息技术股份有限公司   All Rights Reserved</p>
         <p>电话：0755-****888    粤ICP备*******8号</p>
     </div>
+    <script src="./js/jquery-1.12.4.min.js"></script>
+    <script src="./unitl/config.js"></script>
+    <script src="./unitl/category.js"></script>
+    <script src="./unitl/template-web.js"></script>
+    <!-- 导航栏模板引擎 -->
+    <script type="text/html" id="temp_leftmenu" >
+        {{each data item}}
+        <li><a href="#">{{item.name}}</a></li>
+        {{/each}}
+    </script>
+   <!-- 焦点图模板 -->
+   <script type="text/html" id="focusimg" >
+    {{each data item index}}
+    {{if index == 0}}
+    <li class="first">
+        <a href="article.html?id={{item.id}}"><img src="{{item.cover}}" alt=""></a>
+        <p>{{item.title}}</p>
+    </li>
+    {{else}}
+    <li>
+        <a href="article.html?id={{item.id}}"><img src="{{item.cover}}" alt=""></a>
+        <p>{{item.title}}</p>
+    </li>
+    {{/if}}
+    {{/each}}
+</script>
+
+<!-- 重新开始一个项目 -->
+<!-- 1.先准备基础服务器地址js文件，然后准备ajax请求文件 -->
+<script>
+    // 展示全部分类菜单
+category.show(function(res){
+    var htmstr=template('temp_leftmenu',res)
+   
+    $('#left_menu').html(htmstr)
+    $('#level_two').html(' <li class="up"></li>'+htmstr)
+
+
+})
+// 焦点图
+category.getfcousimg(function(res){
+    // console.log(res);
+    
+var htmstr=template('focusimg',res)
+// console.log(htmstr);
+$('#focus_list').html(htmstr)
+
+
+})
+
+
+</script>
+
+
 
 </body>
 

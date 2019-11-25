@@ -58,10 +58,10 @@
             <div class="breadcrumb">
                 当前位置： <a href="#">首页</a> &gt; <a href="#">科技</a> &gt; 文章详情
             </div>
-            <h3 class="article_title">马斯克的新花样？连接人脑和电脑的初创公司又筹了一笔钱</h3>
-            <div class="article_info">杰克 发布于 2019-05-08 07:08:46&nbsp;&nbsp;&nbsp;分类: 奇趣事&nbsp;&nbsp;&nbsp;阅读:
+            <h3 id="article_title" class="article_title">马斯克的新花样？连接人脑和电脑的初创公司又筹了一笔钱</h3>
+            <div class="article_info"><span id="article_author">杰克</span> 发布于 <span id="article_date">2019-05-08 07:08:46</span>&nbsp;&nbsp;&nbsp;分类: <span id="article_type">奇趣事</span>&nbsp;&nbsp;&nbsp;阅读:
                 (98)&nbsp;&nbsp;&nbsp;评论: (0)</div>
-            <div class="article_con">
+            <div id="article_content" class="article_con">
 
                 <p>“上天入地”还不够？硅谷“钢铁侠”马斯克名下一家低调的公司最近又融了一大笔钱。</p>
 
@@ -83,21 +83,21 @@
             <form action="" class="comment_form">
                 <div class="form_group">
                     <label>用户名：</label>
-                    <input type="text" placeholder="请输入用户名" class="comment_name">
+                    <input id="plname" type="text" placeholder="请输入用户名" class="comment_name">
                 </div>
                 <div class="form_group">
                     <label>评论内容：</label>
-                    <textarea placeholder="请发表您的评论" class="comment_input"></textarea>
+                    <textarea id="plcontent" placeholder="请发表您的评论" class="comment_input"></textarea>
                 </div>
                 <div class="form_group">
-                    <input type="submit" name="" value="评 论" class="comment_sub"></div>
+                    <input id="plbtn" type="button" name="" value="评 论" class="comment_sub"></div>
             </form>
 
             <div class="comment_count">
-                4条评论
+            <span id="commentnumber">4</span>条评论
             </div>
 
-            <div class="comment_list_con">
+            <div id="pl" class="comment_list_con">
                 <div class="comment_detail_list">
                     <div class="person_pic fl">乔</div>
                     <div class="name_time fl"><b>虚竹</b><span>4小时前</span></div>
@@ -143,7 +143,7 @@
             </div>
             <div class="common_wrap">
                 <h3><i class="fa fa-commenting-o"></i> 最新评论</h3>
-                <ul class="content_list comment_list">
+                <ul id="comment_list" class="content_list comment_list">
                     <li>
                         <span>山</span>
                         <b><em>山治</em> 9个月前(08-14)说:</b>
@@ -206,5 +206,99 @@
     </div>
 
 </body>
+<script src="./unitl/jquery-1.12.4.min.js"></script>
+<script src="./unitl/config.js"></script>
+<script src="./unitl/category.js"></script>
+<script src="./unitl/template-web.js"></script>
+<script type="text/html" id="ullist">
+{{each data item}}
+    <div class="comment_detail_list">
+        <div class="person_pic fl">{{item.name.substr(0,1)}}</div>
+        <div class="name_time fl"><b>{{item.name}}</b><span>{{item.dt}}</span></div>
+        <div class="comment_text fl">
+            {{item.content}}
+        </div>
+    </div>
+{{/each}}
+</script>
+
+<script>
+var id=location.search.substr(4)
+
+category.article_leirong(id,function(res){
+    var typeid=res.data.type
+    console.log(typeid);
+    
+    // console.log(res);
+    if(res.code===200){
+    $('#article_title').html(res.data.title)
+    $('#article_author').html(res.data.author)
+    $('#article_date').html(res.data.date)
+    $('#article_content').html(res.data.content)
+}else{
+
+    alert(res.msg)
+
+}
+// 文章类别
+category.show(function(res){
+    
+// console.log(res);
+// 此时是一个数组
+var rs=res.data.find(function(item){
+     if(item.id==typeid){
+
+           return true
+
+     }
+
+})
+  if(rs){
+   $('#article_type').html(rs.name)
+  }
+})
+})
+// 评论功能
+// 1.先展示评论，再设置添加评论
+function showpl(){
+category.article_comment(id,function(res){
+
+// console.log(res);
+if(res.code===200){
+    res.data.reverse();
+var htmstr=template('ullist',res)
+// console.log(htmstr);
+
+$('#pl').html(htmstr)
+
+$('#commentnumber').html(res.data.length)
+
+}
+
+})
+}
+showpl();
+// 发表评论
+$('#plbtn').click(function(){
+var name=$('#plname').val().trim();
+var content =$('#plcontent').val().trim();
+// console.log(name,content);
+if(name===""||content===""){
+    alert('不能为空')
+    return
+}
+
+category.send_comment(name,content,id,function(res){
+    $('#plname').val('')
+    $('#plcontent').val('')
+    showpl();
+
+})
+
+})
+
+
+</script>
+
 
 </html>
