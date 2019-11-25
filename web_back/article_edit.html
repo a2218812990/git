@@ -23,24 +23,24 @@
             文章编辑
         </div>
         <div class="container-fluid common_con">
-            <form class="form-horizontal article_form">
+            <form id="article_form" class="form-horizontal article_form">
                 <div class="form-group">
                     <label for="inputEmail3" class="col-sm-2 control-label">文章标题：</label>
                     <div class="col-sm-10">
-                        <input type="email" class="form-control" id="inputEmail3" value="文章标题文字">
+                        <input name="title" type="email" class="form-control" id="inputEmail3" value="文章标题文字">
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="inputPassword3" class="col-sm-2 control-label">文章封面：</label>
                     <div class="col-sm-10">
-                        <img src="images/pic06.jpg" class="article_cover">
-                        <input type="file" id="exampleInputFile">
+                        <img src="images/pic06.jpg" class="article_cover"  id="article_cover">
+                        <input  name="cover" type="file" id="exampleInputFile">
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="inputEmail3" class="col-sm-2 control-label">文章类别：</label>
                     <div class="col-sm-4">
-                        <select class="form-control">
+                        <select name="type" id="selectcategory" class="form-control">
                             <option>类别一</option>
                             <option>类别二</option>
                             <option>类别三</option>
@@ -54,7 +54,7 @@
                     <div class="col-sm-4">
 
                         <div class="input-group">
-                            <input type="text" class="form-control" value="2019-05-17" id="dateinput">
+                            <input  name='date' type="text" class="form-control" value="2019-05-17" id="dateinput">
                             <span class="input-group-btn">
                                 <button class="btn btn-default" type="button"
                                     onclick="jeDate('#dateinput',{trigger:false,format: 'YYYY-MM-DD'})"><i
@@ -66,18 +66,83 @@
                 <div class="form-group">
                     <label for="inputEmail3" class="col-sm-2 control-label">文章内容：</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="rich_content" name="content" placeholder="文章内容" value="文章内容">
+                        <input name='content' type="text" class="form-control" id="rich_content" name="content" placeholder="文章内容" value="文章内容">
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
-                        <button type="submit" class="btn btn-success">修改</button>
+                        <button id="btn-edit" type="button" class="btn btn-success">修改</button>
                     </div>
                 </div>
             </form>
         </div>
     </div>
+<script src="./unitl/config.js"></script>
+<script src="./unitl/article.js"></script>
+<script src="./unitl/category.js"></script>
+<script src="unitl/template-web.js"></script>
+<!-- 模板引擎 -->
+<script type="text/html" id="leibie">
+{{each data item}}
+<option value='{{item.id}}'>{{item.name}}</option>
+{{/each}}
+</script>
+<!-- 模板引擎 -->
 
+<script>
+var url=location.search
+var id=url.substr(4)
+// 先根据文章的id获取文章的信息
+article.getarticle(id,function(res){
+var typeid=res.data.type
+
+// 将信息展示到页面
+$("#inputEmail3").val(res.data.title)
+$("#article_cover").prop('src',res.data.cover)
+$('#dateinput').val(res.data.date)
+$('#rich_content').val(res.data.content)
+// 文章类别比较麻烦单独来做
+category.show(function(res){
+
+
+var htmstr=template('leibie',res)
+
+$('#selectcategory').html(htmstr)
+$('#selectcategory').val(typeid)
+
+})
+
+})
+// 文章打开展示功能结束
+// 开始文章修改
+// 1.点击修改的时候，获取页面上所有的修改的内容，然后发送ajax请求
+$('#btn-edit').click(function(){
+var fd=new FormData(document.getElementById('article_form'))
+fd.append('id',id)
+fd.set('content', tinyMCE.activeEditor.getContent())
+article.edit(fd,function(res){
+
+if(res.code===200){
+
+    alert('修改成功')
+    location.href='article_list.html'
+}else{
+
+    alert(res.msg)
+}
+
+
+})
+
+
+
+
+})
+
+
+
+
+</script>
 </body>
 
 </html>

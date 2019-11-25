@@ -17,5 +17,6 @@ var allurl={
         article_show:localhost+'/admin/search',
         article_del:localhost+'/admin/article_delete',
         article_add:localhost+'/admin/article_publish',
+        article_edit:localhost+'/admin/article_edit',
 
 }

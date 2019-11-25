@@ -1,4 +1,5 @@
 var category={
+    // 文章类别显示
     show:function(callback){
         $.get( allurl.category_show,function(res){
    

@@ -29,6 +29,32 @@ var article={
 
     })
     
+},
+// 获取文章详情  文章搜索的接口，只发送id参数的话就能获取文章详情
+getarticle:function(id,callback) {
+    $.get( allurl.article_show,{id:id},function(res){
+   
+        callback(res);
+
+    })
+},
+
+
+// 修改文章
+  edit:function (fd,callback) {
+    $.ajax({
+         url:allurl.article_edit,
+         type:'post',
+         data:fd,
+         processData: false, // 不要让jquery去处理formdata数据和表头
+         contentType: false,
+         success:function (res){
+             callback(res);
+         }
+
+    })
+    
 }
+
 
 }
