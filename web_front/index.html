@@ -251,22 +251,17 @@
 <!-- 1.先准备基础服务器地址js文件，然后准备ajax请求文件 -->
 <script>
     // 展示全部分类菜单
-category.show(function(res){
-    var htmstr=template('temp_leftmenu',res)
+category.show(res=>{
+    let htmstr=template('temp_leftmenu',res)
     $('#left_menu').html(htmstr)
     $('#level_two').html(' <li class="up"></li>'+htmstr)
-
-
 })
 // 焦点图
-category.getfcousimg(function(res){
+category.getfcousimg(res=>{
     // console.log(res);
-    
-var htmstr=template('focusimg',res)
+let htmstr=template('focusimg',res)
 // console.log(htmstr);
 $('#focus_list').html(htmstr)
-
-
 })
 
 

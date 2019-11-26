@@ -281,9 +281,9 @@
  <!-- 旧代码分隔符 -->
     <script>
         // 设置左侧菜单
-        $('#release_btn').click(function(){
-            window.parent.setMenu(1,1);
-        })
+        $('#release_btn').click(()=> window.parent.setMenu(1,1) )
+           
+       
     </script>
     <!-- 旧代码分隔符 -->
    <!-- 文章下拉所有分类处理 -->
@@ -295,8 +295,8 @@
     {{/each}}
    </script>
    <script>
-   category.show(function(res){
-         var htmstr=template('fenlei',res)
+   category.show(res=>{
+        let htmstr=template('fenlei',res)
             // console.log(htmstr);
             if(res.code===200){
 
@@ -309,21 +309,21 @@
 
 
     <script>
-        var pages="";
+        let pages="";
         // 文章页数
-        var type='';
+        let type='';
         // 文章类型
-        var state='';
+        let state='';
         // 文章类型
-        var nowpages='';
+        let nowpages='';
         // 当前页数
         // 显示文章列表
-        showshow();
+       
     // 封装展示的函数
-     function showshow(){  
-      article.show(pages,type,state,function(res){
+    let showshow=()=>{  
+      article.show(pages,type,state,res=>{
           if(res.code===200){
-            var htmstr=template('articleshow',res) 
+            let htmstr=template('articleshow',res) 
            $('#articlecontiner').html(htmstr)
             // 判断页数
             if(nowpages != res.totalPage){
@@ -332,7 +332,7 @@
                 nowpages=res.totalPage;
 
             }
-
+            
 
             //   分页插件的使用，分页功能
            $('#pagination').twbsPagination({
@@ -350,8 +350,9 @@
         }
       })
     } 
+    showshow();
         // 筛选功能
-    $('#btnSearch').click(function(){
+    $('#btnSearch').click(()=>{
      type=$('#selCategory').val();
      state=$('#selStatus').val();
      pages=1;
@@ -361,10 +362,10 @@
     
     // 删除文章
     $('#articlecontiner').on('click','.del',function(){
-        var id=$(this).attr('data-id')
+        let id=$(this).attr('data-id')
         
         
-        article.del(id,function(res){
+        article.del(id,res=>{
 
               if(res.code===200){
 

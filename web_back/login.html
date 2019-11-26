@@ -65,16 +65,16 @@
 
 
     //    点击登录事件
-    $('#dl-btn').click(function(){
+    $('#dl-btn').click(()=>{
     //    console.log(2);
        
-             var name=$('#tell').val().trim();
-             var password=$('#password').val().trim();
+             let name=$('#tell').val().trim();
+             let password=$('#password').val().trim();
              if(name===""||password===""){
              $('#myModal').modal('show')
               return
         }
-       user.login(name,password,function(res){
+       user.login(name,password,res=>{
              
              if(res.code===200){
                location.href="index.html";

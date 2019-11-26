@@ -174,9 +174,8 @@
     <!-- 模板引擎 分割线-->
       <script>
     //   文章类别显示
-    function show1(){
-    category.show(function(res){
-      var result=template('tempTable',res)
+   let show1=()=>category.show(res=>{
+   let result=template('tempTable',res)
       if(res.code===200){
            
             
@@ -184,7 +183,7 @@
       }
       
     })
-}
+
 
    show1();
     // 文章类别点击删除
@@ -192,12 +191,12 @@
     $('#wentuo').on('click','.del',function(){
 
                    
-        var id=$(this).attr('data-id')
+        let id=$(this).attr('data-id')
         console.log(id);
         
 
         // 1.可以直接移除页面元素实现删除效果
-        category.del(id,function(res){
+        category.del(id,res=>{
             console.log(res);
             
            if(res.code===200){
@@ -216,18 +215,18 @@
     //   新增文章类容
     // 关闭按钮
    
-          $('#model_shutoff').click(function(){
+          $('#model_shutoff').click(()=> $('#addModal').modal('hide'));
             // alert('shutoff');
-            $('#addModal').modal('hide');
-          });
+           
+          
 
-    $('#model_add').click(function(){
+    $('#model_add').click(()=>{
 
     //   先获取输入的两个值，判断是否为空
-    var name =$('.names').val().trim();
+   let name =$('.names').val().trim();
 
-    var slug =$('.slugs').val().trim();
-    console.log(name,slug);
+   let slug =$('.slugs').val().trim();
+    // console.log(name,slug);
     
     
     if(name===''||slug===''){
@@ -237,7 +236,7 @@
 
     }
 
-    category.add(name,slug,function(res){
+    category.add(name,slug,res=>{
 
              if(res.code===200){
                 $('#addModal').modal('hide');
@@ -251,10 +250,10 @@
 
     // 编辑类容
     // 编辑显示模态框
-    $('#wentuo').on('click','.edit',function(){
-        var id = $(this).attr('data-id')
-       var name = $(this).attr('data-name')
-       var slug = $(this).attr('data-slug')
+    $('#wentuo').on('click','.edit',()=>{
+       let id = $(this).attr('data-id')
+       let name = $(this).attr('data-name')
+       let slug = $(this).attr('data-slug')
        $('#editModal').modal('show');
        $('#cate-edit-id').val( id )
        $('#cate-edit-name').val( name )
@@ -263,17 +262,17 @@
 
     })
     // 保存功能
-    $('#model_save').click(function(){
+    $('#model_save').click(()=>{
 
-        var id = $('#cate-edit-id').val().trim()
-        var name = $('#cate-edit-name').val().trim()
-        var slug = $('#cate-edit-slug').val().trim()
+        let id = $('#cate-edit-id').val().trim()
+        let name = $('#cate-edit-name').val().trim()
+        let slug = $('#cate-edit-slug').val().trim()
         if(name===""||slug===""){
             alert('不能为空')
             return
 
         }
-        category.edit(id,name,slug,function(res){
+        category.edit(id,name,slug,res=>{
                if(res.code===200){
 
                       show1();
@@ -287,11 +286,7 @@
 
     })
 //    关闭按钮
-$('#shutoff1').click(function(){
-
-    $('#editModal').modal('hide');
-
-})
+$('#shutoff1').click(()=>$('#editModal').modal('hide'))
 
       </script>
 </body>

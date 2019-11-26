@@ -90,11 +90,11 @@
 <!-- 模板引擎 -->
 
 <script>
-var url=location.search
-var id=url.substr(4)
+let url=location.search
+let id=url.substr(4)
 // 先根据文章的id获取文章的信息
-article.getarticle(id,function(res){
-var typeid=res.data.type
+article.getarticle(id,res=>{
+let typeid=res.data.type
 
 // 将信息展示到页面
 $("#inputEmail3").val(res.data.title)
@@ -102,10 +102,10 @@ $("#article_cover").prop('src',res.data.cover)
 $('#dateinput').val(res.data.date)
 $('#rich_content').val(res.data.content)
 // 文章类别比较麻烦单独来做
-category.show(function(res){
+category.show(res=>{
 
 
-var htmstr=template('leibie',res)
+let htmstr=template('leibie',res)
 
 $('#selectcategory').html(htmstr)
 $('#selectcategory').val(typeid)
@@ -116,11 +116,11 @@ $('#selectcategory').val(typeid)
 // 文章打开展示功能结束
 // 开始文章修改
 // 1.点击修改的时候，获取页面上所有的修改的内容，然后发送ajax请求
-$('#btn-edit').click(function(){
-var fd=new FormData(document.getElementById('article_form'))
+$('#btn-edit').click(()=>{
+let fd=new FormData(document.getElementById('article_form'))
 fd.append('id',id)
 fd.set('content', tinyMCE.activeEditor.getContent())
-article.edit(fd,function(res){
+article.edit(fd,res=>{
 
 if(res.code===200){
 

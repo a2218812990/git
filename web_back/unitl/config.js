@@ -1,6 +1,6 @@
 // 所有接口的网址
-var localhost='http://localhost:8000';
-var allurl={
+const localhost='http://localhost:8000';
+const allurl={
         //  用户相关地址
          quiteurl:localhost+'/admin/logout',
          getuserurl:localhost+'/admin/getuser',

@@ -112,7 +112,7 @@
 
 //   登录的时候获取用户信息
  
-user.getuser(function(res){
+user.getuser(res=>{
     $('#user').text(res.data.nickname)
    $('.img1').prop('src',res.data.user_pic)
 
@@ -123,13 +123,9 @@ user.getuser(function(res){
 
 
     // 退出登录功能
-    $('#tcbtn').click(function(){
-    user.quit(function(res){
-        if(res.code===200){
-
-     location.href="login.html";
-
-}
+    $('#tcbtn').click(()=>{
+    user.quit(res=>{
+        if(res.code===200){location.href="login.html";}
 
     });
 

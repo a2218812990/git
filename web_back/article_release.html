@@ -95,7 +95,7 @@
           <script>
 
             //   文章类别下拉框
-            category.show(function(res){
+            category.show(res=>{
             
                  if(res.code===200){
 
@@ -104,8 +104,8 @@
                  }
             })
             // 文章发布添加功能
-            $('#btnsend').click(function(){
-               var fd=new FormData(document.getElementById('article_form'))
+            $('#btnsend').click(()=>{
+              let fd=new FormData(document.getElementById('article_form'))
             //   发送请求
               fd.append('state','已发布')
               fd.set('content', tinyMCE.activeEditor.getContent())
@@ -122,13 +122,13 @@
 
             })
             // 图片预览
-             $('#exampleInputFile').change(function(){
+             $('#exampleInputFile').change(()=>{
 
-               var files=this.files[0]
+             let files=this.files[0]
 
                if(files){
                
-               var url=URL.createObjectURL(files)
+               let url=URL.createObjectURL(files)
                $('#imgshow').prop('src',url)
                 
             }

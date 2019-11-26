@@ -239,11 +239,11 @@
     //   要给dayjs引用相对时间插件的话，必须要用固定写法
      dayjs.locale('zh-cn') ; // 全局设置，中文
 
-var id=location.search.substr(4)
+let id=location.search.substr(4)
 
-category.article_leirong(id,function(res){
-    var typeid=res.data.type
-    console.log(typeid);
+category.article_leirong(id,res=>{
+    let typeid=res.data.type
+    // console.log(typeid);
     
     // console.log(res);
     if(res.code===200){
@@ -257,11 +257,11 @@ category.article_leirong(id,function(res){
 
 }
 // 文章类别
-category.show(function(res){
+category.show(res=>{
     
 // console.log(res);
 // 此时是一个数组
-var rs=res.data.find(function(item){
+let rs=res.data.find(item=>{
      if(item.id==typeid){
 
            return true
@@ -272,22 +272,23 @@ var rs=res.data.find(function(item){
   if(rs){
    $('#article_type').html(rs.name)
   }
+
 })
 })
 // 评论功能
 // 1.先展示评论，再设置添加评论
-function showpl(){
-category.article_comment(id,function(res){
+let showpl=()=>{
+category.article_comment(id,res=>{
 
 // console.log(res);
 if(res.code===200){
     res.data.reverse();
     // 相对时间插件的使用
-    res.data.forEach(function(item){
-           item.time=dayjs(item.dt).toNow()     
-    })
+    res.data.forEach((item)=>item.time=dayjs(item.dt).toNow()) 
+             
+   
 
-var htmstr=template('ullist',res)
+let htmstr=template('ullist',res)
 // console.log(htmstr);
 
 $('#pl').html(htmstr)
@@ -300,16 +301,16 @@ $('#commentnumber').html(res.data.length)
 }
 showpl();
 // 发表评论
-$('#plbtn').click(function(){
-var name=$('#plname').val().trim();
-var content =$('#plcontent').val().trim();
+$('#plbtn').click(()=>{
+let name=$('#plname').val().trim();
+let content =$('#plcontent').val().trim();
 // console.log(name,content);
 if(name===""||content===""){
     bootbox.alert('不能为空')
     return
 }
 
-category.send_comment(name,content,id,function(res){
+category.send_comment(name,content,id,res=>{
     $('#plname').val('')
     $('#plcontent').val('')
     showpl();
