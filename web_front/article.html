@@ -9,6 +9,7 @@
     <link rel="stylesheet" type="text/css" href="css/reset.css">
     <link rel="stylesheet" href="css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="css/main.css">
+    <link rel="stylesheet" href="./unitl/bootbox/bootstrap.min.css">
 </head>
 
 <body>
@@ -210,11 +211,22 @@
 <script src="./unitl/config.js"></script>
 <script src="./unitl/category.js"></script>
 <script src="./unitl/template-web.js"></script>
+ <!-- dayjs插件的使用 -->
+ <!-- //基础配置 -->
+<script src="./unitl/dayjs/dayjs.min.js"></script>
+<!-- //中文语言插件  -->
+<script src="./unitl/dayjs/zh_cn.js"></script>
+<!-- //功能增强插件获取相对时间// -->
+<script src="./unitl/dayjs/relative.min.js"></script>
+<!-- 模态框插件 -->
+<script src="./unitl/bootbox/bootstrap.min.js"></script>
+<script src="./unitl/bootbox/bootbox.min.js"></script>
+
 <script type="text/html" id="ullist">
 {{each data item}}
     <div class="comment_detail_list">
         <div class="person_pic fl">{{item.name.substr(0,1)}}</div>
-        <div class="name_time fl"><b>{{item.name}}</b><span>{{item.dt}}</span></div>
+        <div class="name_time fl"><b>{{item.name}}</b><span>{{item.time}}</span></div>
         <div class="comment_text fl">
             {{item.content}}
         </div>
@@ -223,6 +235,10 @@
 </script>
 
 <script>
+     dayjs.extend(dayjs_plugin_relativeTime);
+    //   要给dayjs引用相对时间插件的话，必须要用固定写法
+     dayjs.locale('zh-cn') ; // 全局设置，中文
+
 var id=location.search.substr(4)
 
 category.article_leirong(id,function(res){
@@ -266,6 +282,11 @@ category.article_comment(id,function(res){
 // console.log(res);
 if(res.code===200){
     res.data.reverse();
+    // 相对时间插件的使用
+    res.data.forEach(function(item){
+           item.time=dayjs(item.dt).toNow()     
+    })
+
 var htmstr=template('ullist',res)
 // console.log(htmstr);
 
@@ -284,7 +305,7 @@ var name=$('#plname').val().trim();
 var content =$('#plcontent').val().trim();
 // console.log(name,content);
 if(name===""||content===""){
-    alert('不能为空')
+    bootbox.alert('不能为空')
     return
 }
 
